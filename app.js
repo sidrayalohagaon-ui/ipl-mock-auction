@@ -17,7 +17,7 @@ let currentAuctionPlayers = [];
 let isSoundMuted = false;
 let localIp = "localhost";
 let audioCtx = null;
-let userName = "";
+let userName = localStorage.getItem("ipl_auction_username") || "";
 let clientNameMap = {};
 
 
@@ -79,6 +79,7 @@ function setupLoginSubmit() {
         return;
       }
       userName = nameVal;
+      localStorage.setItem("ipl_auction_username", userName);
       
       // Register nickname with server
       socket.emit('register-user', { clientId, userName });
