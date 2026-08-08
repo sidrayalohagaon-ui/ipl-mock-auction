@@ -1378,6 +1378,19 @@ function updateAdminControlsVisibility() {
     }
   }
 
+  // Restrict navigation tabs to Host Admin only (except the default Live Auction tab)
+  const navTabs = document.querySelectorAll("#app-nav .nav-tab");
+  navTabs.forEach(tab => {
+    const tabName = tab.getAttribute("data-tab");
+    if (tabName !== "live") {
+      if (isAdmin) {
+        tab.style.display = "";
+      } else {
+        tab.style.display = "none";
+      }
+    }
+  });
+
   // Show the live current/upcoming player panel to all screens (Admin and Friends)
   const livePlayerPanel = document.getElementById("live-player-panel");
   const auctionGrid = document.querySelector(".auction-grid");
