@@ -203,8 +203,7 @@ function canTeamBid(team, bidAmount, player) {
 
 // Sync View Renderers
 function renderView(viewId) {
-  const isAdmin = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-  if (viewId === "live" && !isAdmin && !myTeamId) {
+  if (viewId === "live" && !myTeamId) {
     alert("Please select a franchise first to enter the live auction!");
     // Delay slightly to prevent render loop collisions
     setTimeout(() => {
