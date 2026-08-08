@@ -237,15 +237,39 @@ function renderView(viewId) {
 
   // Update lobby status
   const headerWidget = document.getElementById("header-user-widget");
-  if (humanTeams.length > 0) {
-    headerWidget.style.display = "flex";
-    headerWidget.innerHTML = `
-      <div class="user-team-badge">
-        <span>Active Friends: <strong>${humanTeams.length}</strong></span>
-      </div>
-    `;
-  } else {
-    headerWidget.style.display = "none";
+  if (headerWidget) {
+    const isAdminDevice = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+    if (isAdminDevice) {
+      // Map all claimed teams to their active user nicknames
+      const activeFriendsList = Object.keys(clientTeamMap)
+        .map(cid => {
+          const name = clientNameMap[cid] || "Unnamed";
+          const team = clientTeamMap[cid] || "None";
+          return `<li style="display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 0.25rem 0.5rem; border-radius: 6px;"><span style="color: var(--text-primary); font-weight:600;">${name}</span> &bull; <strong style="color: var(--accent-gold);">${team}</strong></li>`;
+        })
+        .join("");
+
+      headerWidget.style.display = "flex";
+      headerWidget.innerHTML = `
+        <div class="active-friends-panel" style="display: flex; flex-direction: column; gap: 0.25rem; align-items: flex-end;">
+          <span style="color: var(--text-secondary); font-size: 0.65rem; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px;">👥 Active Managers:</span>
+          <ul style="list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end;">
+            ${activeFriendsList || '<li style="color: var(--text-muted); font-size: 0.75rem;">Waiting for managers...</li>'}
+          </ul>
+        </div>
+      `;
+    } else {
+      if (myTeamId) {
+        headerWidget.style.display = "flex";
+        headerWidget.innerHTML = `
+          <div class="user-team-badge" style="background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); padding: 0.35rem 0.75rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; color: var(--accent-gold);">
+            <span>Your Franchise: <strong>${myTeamId}</strong></span>
+          </div>
+        `;
+      } else {
+        headerWidget.style.display = "none";
+      }
+    }
   }
 
   // Refresh tab specifics
