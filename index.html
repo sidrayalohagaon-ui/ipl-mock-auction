@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPL Mock Auction Simulator - Build Your Dream Team</title>
+  <meta name="description" content="Experience the excitement of the Indian Premier League player auction. Bid against smart AI teams in real-time, manage your 100 Crore budget, and construct your ultimate T20 squad.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Official IPL Captains Background with Live Animations -->
+  <div class="aurora-bg">
+    <div class="glow-blob blob-1"></div>
+    <div class="glow-blob blob-2"></div>
+    <div class="glow-blob blob-3"></div>
+    <div class="aurora-bg-overlay"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Main Header -->
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon">
+          <img src="assets/ipl_logo.svg" alt="IPL Logo" style="height: 42px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));" />
+        </div>
+        <div class="logo-text">
+          <h1>MOCK AUCTION</h1>
+          <span>Simulation Engine</span>
+        </div>
+      </div>
+      
+      <!-- Nav Tabs -->
+      <nav id="app-nav">
+        <button class="nav-tab active" data-tab="live">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+          Live Auction
+        </button>
+        <button class="nav-tab" data-tab="teams">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          Franchise Hubs
+        </button>
+        <button class="nav-tab" data-tab="catalog">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Player Catalog
+        </button>
+        <button class="nav-tab" data-tab="stats">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          Insights & Stats
+        </button>
+      </nav>
+
+      <!-- Header Right Controls -->
+      <div style="margin-left: auto; display: flex; gap: 8px; align-items: center;">
+
+        <button id="btn-sound-toggle" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 0.35rem 0.65rem; font-size: 0.75rem; display: flex; align-items: center; gap: 4px; color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-family: var(--font-body); font-weight:600;">
+          <span id="sound-icon">🔊</span> Sound: ON
+        </button>
+      </div>
+
+      <!-- User Team Roster Widgets -->
+      <div class="header-user-status" id="header-user-widget" style="display: none;">
+        <!-- Filled dynamically by JavaScript -->
+      </div>
+    </header>
+
+    <!-- VIEW: LOGIN PANEL (For Friends) -->
+    <div id="panel-login" class="view-panel">
+      <div class="welcome-container" style="max-width: 420px; margin: 5rem auto; padding: 2rem; border-radius: 20px;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <img src="assets/ipl_logo.svg" alt="IPL Logo" style="height: 70px; margin: 0 auto 1.5rem; display: block; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));" />
+          <h2 style="font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: #fff; margin: 0 0 0.5rem; letter-spacing: -0.5px;">Manager Login</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0; line-height: 1.4;">Enter your name to join the multiplayer auction room.</p>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--accent-gold); font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 0.5px;">Your Name / Nickname</label>
+          <input type="text" id="login-username" placeholder="e.g. Rahul, Sidra, Amit..." style="width: 100%; padding: 0.9rem 1.25rem; font-size: 1rem; border-radius: 12px; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; outline: none; transition: all 0.2s; font-family: inherit;" onfocus="this.style.borderColor='var(--accent-gold)'; this.style.boxShadow='0 0 0 3px rgba(247, 209, 23, 0.15)';" onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.boxShadow='none';" />
+        </div>
+        
+        <button id="login-submit-btn" class="welcome-start-btn" style="width: 100%; padding: 0.9rem; font-size: 1rem; font-weight: 700; margin: 0; display: block;">
+          ENTER AUCTION ROOM
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW 0: WELCOME & TEAM SELECTOR -->
+    <div id="panel-welcome" class="view-panel active">
+      <div class="welcome-container">
+        
+        <!-- Premium IPL Trophy Design -->
+        <div class="welcome-trophy-wrapper">
+          <div class="welcome-trophy-glass">
+            <img class="ipl-trophy-img" src="assets/ipl_trophy.jpg" alt="IPL Trophy" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); border-radius: 50%;" />
+          </div>
+        </div>
+
+        <h2 class="welcome-title">IPL MOCK AUCTION 2026</h2>
+        <p class="welcome-subtitle">Select one or more franchises to be controlled by you and your friends (local multiplayer). Unselected teams will bid automatically as CPUs.</p>
+        
+        <div class="team-grid" id="welcome-team-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <button id="start-auction-btn" class="welcome-start-btn" disabled>
+          ENTER AUCTION ROOM
+        </button>
+      </div>
+    </div>
+
+    <!-- VIEW 1: LIVE AUCTION SCREEN -->
+    <div id="panel-live" class="view-panel">
+      <div class="auction-grid">
+        
+        <!-- Left Panel: Current Player Card -->
+        <div class="glass-panel" id="live-player-panel">
+          <div class="panel-header">
+            <h3>Current Player</h3>
+          </div>
+          <div class="panel-body" id="live-player-card-box">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Center Panel: Bidding display & actions -->
+        <div class="auction-main-dashboard">
+          <div class="bidding-display-panel">
+            <span class="live-indicator">LIVE</span>
+            <span id="bid-display-badge" class="status-badge" style="display: none;">LIVE BIDDING</span>
+            
+            <div id="current-player-mini-banner" style="margin-top: 0.5rem; margin-bottom: 0.5rem; text-align: center; border-bottom: 1px dashed rgba(255,255,255,0.08); padding-bottom: 0.75rem; width: 100%;">
+              <!-- Populated by JS -->
+            </div>
+            
+            <!-- Circular Countdown Timer -->
+            <div class="auction-timer-circle" id="auction-timer-container">
+              <svg class="timer-svg" viewBox="0 0 36 36">
+                <path class="timer-bg-circle" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="timer-progress-circle" id="timer-progress-ring" stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+              <div class="timer-text" id="timer-text-display">10s</div>
+            </div>
+
+            <span class="current-bid-label" id="bid-display-label">Current Bid</span>
+            <div class="current-bid-value" id="bid-display-value">--</div>
+            
+            <div class="current-bidder-info" id="bid-display-info" style="display: none;">
+              <!-- Bidder details -->
+            </div>
+          </div>
+
+          <!-- Interactive Bidding actions -->
+          <div class="bidding-controls-panel">
+            <div id="multiplayer-controls-container">
+              <!-- Populated dynamically for each human-controlled franchise -->
+            </div>
+
+            <!-- Dashboard controls & status -->
+            <div class="sim-controls-bar">
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button class="control-icon-btn" id="btn-pause-resume" title="Pause/Resume Simulation">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="4" width="4" height="16" rx="1"></rect><rect x="6" y="4" width="4" height="16" rx="1"></rect></svg>
+                </button>
+                <button class="control-icon-btn" id="btn-skip" title="Mark Player Unsold & Skip">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+                </button>
+              </div>
+
+              <div class="sim-speed-btn-group">
+                <span style="align-self: center; margin-right: 0.5rem; font-size: 0.75rem; color: var(--text-secondary);">Sim Speed:</span>
+                <button class="sim-speed-btn" data-speed="4000">Slow</button>
+                <button class="sim-speed-btn active" data-speed="2000">Medium</button>
+                <button class="sim-speed-btn" data-speed="1000">Fast</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel: Live Logs -->
+        <div class="glass-panel auction-log-feed">
+          <div class="panel-header">
+            <h3>Auction Feed</h3>
+          </div>
+          <div class="panel-body log-container" id="auction-log-container">
+            <div class="log-item system-event">
+              <span>[SYSTEM] Auction Room initialized. Select 'Bid' to raise current offer.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- VIEW 2: FRANCHISE SQUADS -->
+    <div id="panel-teams" class="view-panel">
+      <div class="team-hubs-grid" id="team-hubs-container">
+        <!-- Populated dynamically by JavaScript -->
+      </div>
+    </div>
+
+    <!-- VIEW 3: PLAYER CATALOG -->
+    <div id="panel-catalog" class="view-panel">
+      <div class="catalog-controls">
+        <input type="text" id="catalog-search" class="search-input" placeholder="Search players by name...">
+        <select id="catalog-filter-role" class="select-filter">
+          <option value="All">All Roles</option>
+          <option value="Batsman">Batsmen</option>
+          <option value="Bowler">Bowlers</option>
+          <option value="All-Rounder">All-Rounders</option>
+          <option value="Wicketkeeper">Wicketkeepers</option>
+        </select>
+        <select id="catalog-filter-status" class="select-filter">
+          <option value="All">All Status</option>
+          <option value="Upcoming">Upcoming / In Bidding</option>
+          <option value="Sold">Sold</option>
+          <option value="Unsold">Unsold</option>
+        </select>
+      </div>
+      <div class="catalog-grid" id="catalog-players-container">
+        <!-- Populated dynamically by JavaScript -->
+      </div>
+    </div>
+
+    <!-- VIEW 4: STATISTICS & INSIGHTS -->
+    <div id="panel-stats" class="view-panel">
+      <div class="stats-summary-cards">
+        <div class="stat-summary-card">
+          <span class="stat-summary-label">Players Sold</span>
+          <div class="stat-summary-value" id="stat-total-sold">0</div>
+          <span class="stat-summary-sub">out of 40 in the pool</span>
+        </div>
+        <div class="stat-summary-card">
+          <span class="stat-summary-label">Total Spent</span>
+          <div class="stat-summary-value" id="stat-total-spent">0.00 Cr</div>
+          <span class="stat-summary-sub">by all 10 franchises</span>
+        </div>
+        <div class="stat-summary-card">
+          <span class="stat-summary-label">Highest Buy</span>
+          <div class="stat-summary-value" id="stat-highest-buy" style="font-size: 1.2rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0.35rem 0;">None</div>
+          <span class="stat-summary-sub">Top bid of the auction</span>
+        </div>
+        <div class="stat-summary-card">
+          <span class="stat-summary-label">Biggest Spender</span>
+          <div class="stat-summary-value" id="stat-biggest-spender" style="font-size: 1.2rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0.35rem 0;">None</div>
+          <span class="stat-summary-sub">Franchise with most cash spent</span>
+        </div>
+      </div>
+
+      <div class="stats-detailed-grid">
+        <div class="stats-panel-box">
+          <h4 class="stats-panel-title">Top 5 Most Expensive Buys</h4>
+          <div class="top-buys-list" id="top-buys-list-box">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <div class="stats-panel-box">
+          <h4 class="stats-panel-title">Franchise Budget Allocation</h4>
+          <div id="budget-breakdown-box">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Footer Credit -->
+    <footer style="margin-top: auto; padding: 2rem 0 1rem; text-align: center; font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-body); border-top: 1px solid rgba(255,255,255,0.03); display: flex; justify-content: center; align-items: center; gap: 8px;">
+      <span>© 2026 IPL Mock Auction Simulator. Developed by</span>
+      <a href="https://sidraya-portfolio-site--sidrayalohagaon.replit.app/" target="_blank" style="color: var(--accent-gold); text-decoration: none; font-weight: 700; border: 1px solid rgba(251, 191, 36, 0.2); padding: 2px 8px; border-radius: 6px; background: rgba(251, 191, 36, 0.05); transition: all 0.2s;" onmouseover="this.style.background='rgba(251, 191, 36, 0.15)'; this.style.borderColor='var(--accent-gold)';" onmouseout="this.style.background='rgba(251, 191, 36, 0.05)'; this.style.borderColor='rgba(251, 191, 36, 0.2)';">Sidraya</a>
+    </footer>
+  </div>
+
+  <!-- Script tags -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="players.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
