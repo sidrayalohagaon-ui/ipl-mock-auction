@@ -1233,6 +1233,98 @@ function setupSoundToggle() {
 
 
 
+function loadIndiaMapIntoModal(teamId, targetContainer) {
+  fetch('/assets/india_map.svg')
+    .then(response => response.text())
+    .then(svgText => {
+      const parser = new DOMParser();
+      const svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+      const svgEl = svgDoc.documentElement;
+      
+      svgEl.setAttribute("width", "100%");
+      svgEl.setAttribute("height", "100%");
+      svgEl.style.maxHeight = "165px";
+      svgEl.style.display = "block";
+      
+      const paths = svgEl.querySelectorAll("path");
+      paths.forEach(p => {
+        p.style.fill = "rgba(255, 255, 255, 0.05)";
+        p.style.stroke = "rgba(255, 255, 255, 0.15)";
+        p.style.strokeWidth = "1.5px";
+      });
+      
+      targetContainer.innerHTML = "";
+      targetContainer.appendChild(svgEl);
+      
+      // Coordinates mapping relative to viewBox 0 0 612 696
+      const coordinates = {
+        "CSK": { x: 260, y: 580, color: "#f8d107", name: "Chennai", stadium: "M. A. Chidambaram Stadium" },
+        "MI": { x: 135, y: 445, color: "#004ba0", name: "Mumbai", stadium: "Wankhede Stadium" },
+        "RCB": { x: 210, y: 570, color: "#ec1c24", name: "Bengaluru", stadium: "M. Chinnaswamy Stadium" },
+        "KKR": { x: 420, y: 340, color: "#3a225d", name: "Kolkata", stadium: "Eden Gardens" },
+        "RR": { x: 175, y: 265, color: "#ea1a85", name: "Jaipur", stadium: "Sawai Mansingh Stadium" },
+        "DC": { x: 210, y: 230, color: "#1b3e85", name: "Delhi", stadium: "Arun Jaitley Stadium" },
+        "SRH": { x: 240, y: 480, color: "#f26522", name: "Hyderabad", stadium: "Rajiv Gandhi Intl Stadium" },
+        "PBKS": { x: 185, y: 195, color: "#ed1f24", name: "Mohali", stadium: "IS Bindra Stadium" },
+        "LSG": { x: 275, y: 260, color: "#1f4a7c", name: "Lucknow", stadium: "Ekana Cricket Stadium" },
+        "GT": { x: 120, y: 350, color: "#cca355", name: "Ahmedabad", stadium: "Narendra Modi Stadium" }
+      };
+
+      Object.keys(coordinates).forEach(tid => {
+        const coord = coordinates[tid];
+        const isActive = (tid === teamId);
+        
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.setAttribute("class", `map-marker ${isActive ? 'active' : ''}`);
+        
+        if (isActive) {
+          const pulse = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          pulse.setAttribute("cx", coord.x);
+          pulse.setAttribute("cy", coord.y);
+          pulse.setAttribute("r", "16");
+          pulse.setAttribute("fill", coord.color);
+          pulse.setAttribute("opacity", "0.4");
+          
+          const animate = document.createElementNS("http://www.w3.org/2000/svg", "animate");
+          animate.setAttribute("attributeName", "r");
+          animate.setAttribute("values", "6;24;6");
+          animate.setAttribute("dur", "2s");
+          animate.setAttribute("repeatCount", "indefinite");
+          pulse.appendChild(animate);
+          
+          const animateOp = document.createElementNS("http://www.w3.org/2000/svg", "animate");
+          animateOp.setAttribute("attributeName", "opacity");
+          animateOp.setAttribute("values", "0.6;0.1;0.6");
+          animateOp.setAttribute("dur", "2s");
+          animateOp.setAttribute("repeatCount", "indefinite");
+          pulse.appendChild(animateOp);
+          
+          g.appendChild(pulse);
+        }
+        
+        const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        dot.setAttribute("cx", coord.x);
+        dot.setAttribute("cy", coord.y);
+        dot.setAttribute("r", isActive ? "8" : "4");
+        dot.setAttribute("fill", isActive ? coord.color : "rgba(255,255,255,0.3)");
+        dot.setAttribute("stroke", isActive ? "#fff" : "rgba(0,0,0,0.3)");
+        dot.setAttribute("stroke-width", isActive ? "2" : "1");
+        dot.style.cursor = "pointer";
+        
+        const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
+        title.textContent = `${coord.name}: ${coord.stadium} (${tid})`;
+        dot.appendChild(title);
+        
+        g.appendChild(dot);
+        svgEl.appendChild(g);
+      });
+    })
+    .catch(err => {
+      console.warn("Failed to load India map SVG:", err);
+      targetContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.75rem;">Map loading failed</div>`;
+    });
+}
+
 // Detailed squad info popup modal
 function openFullSquadModal(teamId) {
   const team = franchises.find(t => t.id === teamId);
@@ -1378,15 +1470,22 @@ function openFullSquadModal(teamId) {
       </div>
     </div>
 
-    <!-- Stadium Info Banner -->
-    <div style="position: relative; height: 130px; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: flex-end; padding: 1rem 1.5rem; flex-shrink: 0;">
-      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+    <!-- Venue Section (Stadium Photo + India Map) -->
+    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 15px; padding: 1rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.15); flex-shrink: 0;">
+      <!-- Left: Stadium Photo -->
+      <div style="position: relative; height: 180px; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08);">
         <img src="assets/stadiums/stadium_${team.id.toLowerCase()}.jpg" alt="${team.venue}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='assets/ipl_stadium.jpg';" />
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(10, 14, 28, 0.95) 0%, rgba(10, 14, 28, 0.4) 60%, rgba(10, 14, 28, 0.8) 100%);"></div>
+        <div style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 0.75rem 1rem; background: linear-gradient(to top, rgba(10,14,28,0.95) 0%, rgba(10,14,28,0) 100%); z-index: 2;">
+          <span style="font-size: 0.6rem; color: var(--accent-gold); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">🏡 Home Venue</span>
+          <h4 style="margin: 0; font-size: 0.95rem; font-weight: 700; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.6);">${team.venue}</h4>
+        </div>
       </div>
-      <div style="position: relative; z-index: 2; display: flex; flex-direction: column; gap: 2px;">
-        <span style="font-size: 0.65rem; color: var(--accent-gold); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">🏡 Home Venue</span>
-        <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${team.venue}</h4>
+      <!-- Right: Interactive India Map -->
+      <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 0.5rem; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 180px;">
+        <span style="font-size: 0.6rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem;">📍 Geographic Location</span>
+        <div id="india-map-container" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+          <div style="font-size:0.75rem; color:var(--text-muted);">Loading map...</div>
+        </div>
       </div>
     </div>
 
@@ -1398,6 +1497,12 @@ function openFullSquadModal(teamId) {
 
   overlay.appendChild(content);
   document.body.appendChild(overlay);
+
+  // Load interactive India Map and highlight city
+  const mapContainer = document.getElementById("india-map-container");
+  if (mapContainer) {
+    loadIndiaMapIntoModal(teamId, mapContainer);
+  }
 
   const closeModal = () => {
     overlay.style.opacity = "0";
