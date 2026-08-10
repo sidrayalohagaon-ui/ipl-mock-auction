@@ -1016,8 +1016,18 @@ socket.on('view-updated', ({ currentView: newView }) => {
   renderView(newView);
 });
 
+// RTM Prompts
+socket.on('rtm-prompt', ({ playerName, formerTeamId, bidAmount, highestBidder }) => {
+  if (myTeamId === formerTeamId) {
+    showRTMModal(playerName, formerTeamId, bidAmount, highestBidder);
+  } else {
+    showRTMSpectatorOverlay(playerName, formerTeamId, bidAmount, highestBidder);
+  }
+});
+
 // New player start
 socket.on('new-player-started', (state) => {
+  clearRTMOverlays();
   franchises = state.franchises;
   humanTeams = state.humanTeams;
   humanPassedState = state.humanPassedState;
@@ -1104,6 +1114,7 @@ socket.on('pass-updated', ({ humanPassedState: updatedPassState }) => {
 
 // Bidding Resolution (SOLD/UNSOLD)
 socket.on('auction-resolved', ({ player, franchises: updatedFranchises, currentAuctionPlayers: updatedPlayers }) => {
+  clearRTMOverlays();
   franchises = updatedFranchises;
   currentAuctionPlayers = updatedPlayers;
   
@@ -1599,6 +1610,111 @@ function unlockBrowserAudio() {
 }
 document.addEventListener('click', unlockBrowserAudio);
 document.addEventListener('touchstart', unlockBrowserAudio);
+
+// RTM Modals and Spectator UI Overlays
+function showRTMModal(playerName, formerTeamId, bidAmount, highestBidder) {
+  let modal = document.getElementById("rtm-modal");
+  if (modal) modal.remove();
+
+  modal = document.createElement("div");
+  modal.id = "rtm-modal";
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.left = "0";
+  modal.style.width = "100vw";
+  modal.style.height = "100vh";
+  modal.style.background = "rgba(8, 7, 13, 0.95)";
+  modal.style.zIndex = "2000";
+  modal.style.display = "flex";
+  modal.style.justifyContent = "center";
+  modal.style.alignItems = "center";
+  modal.style.padding = "1rem";
+  modal.style.backdropFilter = "blur(12px)";
+
+  modal.innerHTML = `
+    <div class="glass-panel" style="max-width: 440px; width: 100%; padding: 2.5rem; text-align: center; border: 1px solid var(--accent-gold); box-shadow: 0 0 30px var(--accent-gold-glow); animation: modal-zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); border-radius: 20px;">
+      <div style="font-size: 3rem; margin-bottom: 1rem;">🚨</div>
+      <h3 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: var(--accent-gold); margin-bottom: 0.75rem; text-transform: uppercase;">Right To Match (RTM)</h3>
+      <p style="font-size: 0.9rem; color: var(--text-primary); line-height: 1.5; margin-bottom: 1.5rem;">
+        Do you want to exercise your <strong>RTM Card</strong> to match the final bid of <strong>₹${bidAmount.toFixed(2)} Cr</strong> placed by <strong>${highestBidder}</strong> and buy back <strong>${playerName}</strong>?
+      </p>
+      <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 10px;">
+        <button id="rtm-match-btn" class="welcome-start-btn" style="margin: 0; padding: 0.75rem; font-size: 0.9rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-gold) 0%, #d97706 100%); color: #000; cursor: pointer; border-radius: 12px;">
+          MATCH BID (RTM)
+        </button>
+        <button id="rtm-pass-btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); border-radius: 12px; cursor: pointer; font-family: inherit; font-size: 0.9rem; font-weight:600; transition: all 0.2s;">
+          PASS
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Add styles for zoom animation
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @keyframes modal-zoom {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  document.getElementById("rtm-match-btn").addEventListener("click", () => {
+    socket.emit('rtm-response', { claim: true });
+    modal.remove();
+  });
+
+  document.getElementById("rtm-pass-btn").addEventListener("click", () => {
+    socket.emit('rtm-response', { claim: false });
+    modal.remove();
+  });
+}
+
+function showRTMSpectatorOverlay(playerName, formerTeamId, bidAmount, highestBidder) {
+  let overlay = document.getElementById("rtm-spectator-overlay");
+  if (overlay) overlay.remove();
+
+  overlay = document.createElement("div");
+  overlay.id = "rtm-spectator-overlay";
+  overlay.style.position = "absolute";
+  overlay.style.top = "0";
+  overlay.style.left = "0";
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.background = "rgba(6, 9, 21, 0.94)";
+  overlay.style.zIndex = "100";
+  overlay.style.display = "flex";
+  overlay.style.flexDirection = "column";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+  overlay.style.borderRadius = "20px";
+  overlay.style.padding = "1.5rem";
+  overlay.style.backdropFilter = "blur(8px)";
+
+  overlay.innerHTML = `
+    <div style="font-size: 2.5rem; margin-bottom: 0.5rem; animation: pulse 1.5s infinite;">🚨</div>
+    <h4 style="color: var(--accent-gold); font-family: var(--font-display); font-weight:800; font-size: 1.1rem; text-transform: uppercase; margin-bottom: 0.5rem;">RTM Decision Pending</h4>
+    <p style="color: var(--text-secondary); font-size: 0.85rem; text-align: center; max-width: 280px; line-height: 1.4; margin: 0;">
+      Waiting for <strong>${formerTeamId}</strong> to decide if they will match the bid of <strong>₹${bidAmount.toFixed(2)} Cr</strong> to buy back <strong>${playerName}</strong>.
+    </p>
+  `;
+
+  const biddingPanel = document.querySelector(".bidding-display-panel");
+  if (biddingPanel) {
+    biddingPanel.style.position = "relative";
+    biddingPanel.appendChild(overlay);
+  }
+}
+
+function clearRTMOverlays() {
+  const modal = document.getElementById("rtm-modal");
+  if (modal) modal.remove();
+  
+  const overlay = document.getElementById("rtm-spectator-overlay");
+  if (overlay) overlay.remove();
+}
 
 
 

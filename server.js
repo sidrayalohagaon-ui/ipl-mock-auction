@@ -211,16 +211,16 @@ const prePopulatedSquads = {
 
 // Server-side State (Starting leftover budgets for IPL 2026 Mini Auction from PDF)
 const franchisesData = [
-  { id: "CSK", name: "Chennai Super Kings", shortName: "CSK", owner: "India Cements", color: "#f8d107", secondaryColor: "#005ea6", budget: 43.40, squad: [], preferences: { Batsman: 1.1, Bowler: 1.0, Wicketkeeper: 1.2, "All-Rounder": 1.3, maxRatingWeight: 0.95 } },
-  { id: "MI", name: "Mumbai Indians", shortName: "MI", owner: "Reliance Industries", color: "#004ba0", secondaryColor: "#d1ab3a", budget: 2.75, squad: [], preferences: { Batsman: 1.2, Bowler: 1.3, Wicketkeeper: 1.0, "All-Rounder": 1.1, maxRatingWeight: 0.98 } },
-  { id: "RCB", name: "Royal Challengers Bengaluru", shortName: "RCB", owner: "Diageo", color: "#ec1c24", secondaryColor: "#000000", budget: 16.40, squad: [], preferences: { Batsman: 1.4, Bowler: 1.1, Wicketkeeper: 1.1, "All-Rounder": 1.0, maxRatingWeight: 0.96 } },
-  { id: "KKR", name: "Kolkata Knight Riders", shortName: "KKR", owner: "Red Chillies Entertainment", color: "#3a225d", secondaryColor: "#f1c40f", budget: 64.30, squad: [], preferences: { Batsman: 1.0, Bowler: 1.1, Wicketkeeper: 1.0, "All-Rounder": 1.4, maxRatingWeight: 0.93 } },
-  { id: "RR", name: "Rajasthan Royals", shortName: "RR", owner: "Emerging Media", color: "#ea1a85", secondaryColor: "#254aa5", budget: 16.05, squad: [], preferences: { Batsman: 1.2, Bowler: 1.2, Wicketkeeper: 1.1, "All-Rounder": 1.0, maxRatingWeight: 0.94 } },
-  { id: "DC", name: "Delhi Capitals", shortName: "DC", owner: "GMR & JSW", color: "#1b3e85", secondaryColor: "#ef4123", budget: 21.80, squad: [], preferences: { Batsman: 1.1, Bowler: 1.2, Wicketkeeper: 1.3, "All-Rounder": 1.0, maxRatingWeight: 0.91 } },
-  { id: "SRH", name: "Sunrisers Hyderabad", shortName: "SRH", owner: "SUN Group", color: "#f26522", secondaryColor: "#000000", budget: 25.50, squad: [], preferences: { Batsman: 1.3, Bowler: 1.2, Wicketkeeper: 1.0, "All-Rounder": 1.1, maxRatingWeight: 0.92 } },
-  { id: "PBKS", name: "Punjab Kings", shortName: "PBKS", owner: "KPH Dream Cricket", color: "#ed1f24", secondaryColor: "#ffffff", budget: 11.50, squad: [], preferences: { Batsman: 1.1, Bowler: 1.2, Wicketkeeper: 1.1, "All-Rounder": 1.2, maxRatingWeight: 0.89 } },
-  { id: "LSG", name: "Lucknow Super Giants", shortName: "LSG", owner: "RPSG Group", color: "#1f4a7c", secondaryColor: "#e6ad1c", budget: 22.95, squad: [], preferences: { Batsman: 1.1, Bowler: 1.1, Wicketkeeper: 1.2, "All-Rounder": 1.3, maxRatingWeight: 0.90 } },
-  { id: "GT", name: "Gujarat Titans", shortName: "GT", owner: "CVC Capital", color: "#1b253b", secondaryColor: "#cca355", budget: 12.90, squad: [], preferences: { Batsman: 1.2, Bowler: 1.3, Wicketkeeper: 1.0, "All-Rounder": 1.1, maxRatingWeight: 0.91 } }
+  { id: "CSK", name: "Chennai Super Kings", shortName: "CSK", owner: "India Cements", color: "#f8d107", secondaryColor: "#005ea6", budget: 43.40, squad: [], rtmCards: 3, preferences: { Batsman: 1.1, Bowler: 1.0, Wicketkeeper: 1.2, "All-Rounder": 1.3, maxRatingWeight: 0.95 } },
+  { id: "MI", name: "Mumbai Indians", shortName: "MI", owner: "Reliance Industries", color: "#004ba0", secondaryColor: "#d1ab3a", budget: 2.75, squad: [], rtmCards: 3, preferences: { Batsman: 1.2, Bowler: 1.3, Wicketkeeper: 1.0, "All-Rounder": 1.1, maxRatingWeight: 0.98 } },
+  { id: "RCB", name: "Royal Challengers Bengaluru", shortName: "RCB", owner: "Diageo", color: "#ec1c24", secondaryColor: "#000000", budget: 16.40, squad: [], rtmCards: 3, preferences: { Batsman: 1.4, Bowler: 1.1, Wicketkeeper: 1.1, "All-Rounder": 1.0, maxRatingWeight: 0.96 } },
+  { id: "KKR", name: "Kolkata Knight Riders", shortName: "KKR", owner: "Red Chillies Entertainment", color: "#3a225d", secondaryColor: "#f1c40f", budget: 64.30, squad: [], rtmCards: 3, preferences: { Batsman: 1.0, Bowler: 1.1, Wicketkeeper: 1.0, "All-Rounder": 1.4, maxRatingWeight: 0.93 } },
+  { id: "RR", name: "Rajasthan Royals", shortName: "RR", owner: "Emerging Media", color: "#ea1a85", secondaryColor: "#254aa5", budget: 16.05, squad: [], rtmCards: 3, preferences: { Batsman: 1.2, Bowler: 1.2, Wicketkeeper: 1.1, "All-Rounder": 1.0, maxRatingWeight: 0.94 } },
+  { id: "DC", name: "Delhi Capitals", shortName: "DC", owner: "GMR & JSW", color: "#1b3e85", secondaryColor: "#ef4123", budget: 21.80, squad: [], rtmCards: 3, preferences: { Batsman: 1.1, Bowler: 1.2, Wicketkeeper: 1.3, "All-Rounder": 1.0, maxRatingWeight: 0.91 } },
+  { id: "SRH", name: "Sunrisers Hyderabad", shortName: "SRH", owner: "SUN Group", color: "#f26522", secondaryColor: "#000000", budget: 25.50, squad: [], rtmCards: 3, preferences: { Batsman: 1.3, Bowler: 1.2, Wicketkeeper: 1.0, "All-Rounder": 1.1, maxRatingWeight: 0.92 } },
+  { id: "PBKS", name: "Punjab Kings", shortName: "PBKS", owner: "KPH Dream Cricket", color: "#ed1f24", secondaryColor: "#ffffff", budget: 11.50, squad: [], rtmCards: 3, preferences: { Batsman: 1.1, Bowler: 1.2, Wicketkeeper: 1.1, "All-Rounder": 1.2, maxRatingWeight: 0.89 } },
+  { id: "LSG", name: "Lucknow Super Giants", shortName: "LSG", owner: "RPSG Group", color: "#1f4a7c", secondaryColor: "#e6ad1c", budget: 22.95, squad: [], rtmCards: 3, preferences: { Batsman: 1.1, Bowler: 1.1, Wicketkeeper: 1.2, "All-Rounder": 1.3, maxRatingWeight: 0.90 } },
+  { id: "GT", name: "Gujarat Titans", shortName: "GT", owner: "CVC Capital", color: "#1b253b", secondaryColor: "#cca355", budget: 12.90, squad: [], rtmCards: 3, preferences: { Batsman: 1.2, Bowler: 1.3, Wicketkeeper: 1.0, "All-Rounder": 1.1, maxRatingWeight: 0.91 } }
 ];
 
 let franchises = JSON.parse(JSON.stringify(franchisesData));
@@ -243,6 +243,117 @@ let serverTimer = null;
 let poolMode = "mini"; // Default is 'mini' for Mini Auction 2026
 let preBiddingDelay = 0;
 let clientNameMap = {}; // Maps clientId -> userName
+
+let isRtmActive = false;
+let rtmPlayer = null;
+let rtmHighestBidder = null;
+let rtmBidAmount = 0;
+let rtmFormerTeamId = null;
+let rtmTimeout = null;
+
+const formerTeamsMap = {
+  "Devon Conway": "CSK",
+  "Jake Fraser-McGurk": "DC",
+  "Rachin Ravindra": "CSK",
+  "Cameron Green": "RCB",
+  "Sunil Narine": "KKR",
+  "Heinrich Klaasen": "SRH",
+  "Pat Cummins": "SRH",
+  "Travis Head": "SRH",
+  "Jasprit Bumrah": "MI",
+  "Rohit Sharma": "MI",
+  "Hardik Pandya": "MI",
+  "Nicholas Pooran": "LSG",
+  "Rashid Khan": "GT",
+  "Kagiso Rabada": "PBKS",
+  "Sam Curran": "PBKS",
+  "Shreyas Iyer": "KKR",
+  "Rishabh Pant": "DC",
+  "Trent Boult": "RR",
+  "Jos Buttler": "RR",
+  "Yuzvendra Chahal": "RR",
+  "Mitchell Starc": "KKR",
+  "Mitchell Marsh": "DC",
+  "Marcus Stoinis": "LSG",
+  "Quinton de Kock": "LSG",
+  "Josh Hazlewood": "RCB",
+  "Faf du Plessis": "RCB",
+  "Glenn Maxwell": "RCB"
+};
+
+function getFormerTeam(playerName, playerId) {
+  if (formerTeamsMap[playerName]) {
+    return formerTeamsMap[playerName];
+  }
+  for (const teamId in prePopulatedSquads) {
+    if (prePopulatedSquads[teamId].some(p => p.name === playerName)) {
+      return teamId;
+    }
+  }
+  const teams = ["CSK", "MI", "RCB", "KKR", "RR", "DC", "SRH", "PBKS", "LSG", "GT"];
+  return teams[playerId % teams.length];
+}
+
+function checkAndTriggerRTM(player, bidderId, price) {
+  const formerTeamId = getFormerTeam(player.name, player.id);
+  const formerTeam = franchises.find(f => f.id === formerTeamId);
+  
+  if (formerTeamId && formerTeam && formerTeamId !== bidderId && formerTeam.rtmCards > 0 && formerTeam.budget >= price && formerTeam.squad.length < 25) {
+    isRtmActive = true;
+    rtmPlayer = player;
+    rtmHighestBidder = bidderId;
+    rtmBidAmount = price;
+    rtmFormerTeamId = formerTeamId;
+    
+    const isHuman = humanTeams.includes(formerTeamId);
+    if (isHuman) {
+      addLog("system", `🚨 RTM AVAILABLE! Former team ${formerTeam.name} has 15s to match final bid of ${price.toFixed(2)} Cr!`, formerTeam.color);
+      io.emit('rtm-prompt', { 
+        playerName: player.name, 
+        formerTeamId, 
+        bidAmount: price, 
+        highestBidder: bidderId 
+      });
+      
+      if (rtmTimeout) clearTimeout(rtmTimeout);
+      rtmTimeout = setTimeout(() => {
+        if (isRtmActive) {
+          addLog("system", `Time expired! ${formerTeam.name} did not invoke RTM.`);
+          resolveRTM(false);
+        }
+      }, 15000);
+    } else {
+      // CPU decision (e.g. if rating >= 84 and budget is secure)
+      const cpuChoice = player.rating >= 84 && formerTeam.budget >= price;
+      setTimeout(() => {
+        resolveRTM(cpuChoice);
+      }, 2000);
+    }
+    return true;
+  }
+  return false;
+}
+
+function resolveRTM(claim) {
+  if (!isRtmActive) return;
+  isRtmActive = false;
+  if (rtmTimeout) clearTimeout(rtmTimeout);
+  
+  const formerTeam = franchises.find(f => f.id === rtmFormerTeamId);
+  
+  if (claim && formerTeam && formerTeam.budget >= rtmBidAmount) {
+    formerTeam.rtmCards--;
+    sellPlayer(rtmPlayer, rtmFormerTeamId, rtmBidAmount);
+    addLog("sold", `🔨 RTM MATCHED! ${formerTeam.name} exercised RTM card to buy back ${rtmPlayer.name} for ${rtmBidAmount.toFixed(2)} Cr!`, formerTeam.color);
+  } else {
+    sellPlayer(rtmPlayer, rtmHighestBidder, rtmBidAmount);
+  }
+  
+  rtmPlayer = null;
+  rtmHighestBidder = null;
+  rtmBidAmount = 0;
+  rtmFormerTeamId = null;
+}
 
 // Build a list of all retained player names
 const retainedPlayerNames = new Set();
@@ -379,6 +490,7 @@ function canCPUBid(team, bidAmount, player) {
 }
 
 function executeBid(bidderId, amount) {
+  if (isRtmActive) return; // Block bids during RTM prompt
   preBiddingDelay = 0; // Clear intro delay immediately upon bid activity
   currentBid = amount;
   currentBidder = bidderId;
@@ -470,7 +582,7 @@ function startNewPlayerAuction() {
 
 // Server Core Timer Loop
 function serverTimerTick() {
-  if (isPaused || !auctionActive) return;
+  if (isPaused || !auctionActive || isRtmActive) return;
 
   const player = currentAuctionPlayers[currentPlayerIndex];
 
@@ -521,7 +633,10 @@ function serverTimerTick() {
   } else if (timeLeft === 0) {
     clearInterval(serverTimer);
     if (currentBidder) {
-      sellPlayer(player, currentBidder, currentBid);
+      const rtmTriggered = checkAndTriggerRTM(player, currentBidder, currentBid);
+      if (!rtmTriggered) {
+        sellPlayer(player, currentBidder, currentBid);
+      }
     } else {
       markPlayerUnsold(player);
     }
@@ -557,6 +672,16 @@ io.on('connection', (socket) => {
   socket.on('register-user', ({ clientId: cid, userName }) => {
     clientNameMap[cid] = userName;
     io.emit('lobby-updated', { humanTeams, clientTeamMap, clientNameMap, franchises });
+  });
+
+  // RTM Response Handler
+  socket.on('rtm-response', ({ claim }) => {
+    if (!isRtmActive || !rtmFormerTeamId) return;
+    
+    const cid = socket.clientId;
+    if (clientTeamMap[cid] !== rtmFormerTeamId) return;
+    
+    resolveRTM(claim);
   });
 
   // Update Starting Team Purse (starting budget for mini auctions)
