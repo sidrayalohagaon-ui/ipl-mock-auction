@@ -384,19 +384,29 @@ function populateRetainedSquads() {
 }
 populateRetainedSquads();
 
-// Filter players dynamically based on selected pool mode
+function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Filter players dynamically based on selected pool mode and randomize the order
 function getFilteredPlayers() {
   let list = playersData.filter(p => !retainedPlayerNames.has(p.name.toLowerCase().trim()));
   if (poolMode === "mini") {
     // Mini Auction: Rating >= 80 or basePrice >= 1.5 Cr (Top 145 cap release pool)
     list = list.filter(p => p.rating >= 80 || p.basePrice >= 1.5);
   }
-  return list.map(p => ({
+  const mapped = list.map(p => ({
     ...p,
     status: "Upcoming",
     soldTo: null,
     soldPrice: null
   }));
+  return shuffleArray(mapped);
 }
 
 // Initialize players
