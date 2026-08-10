@@ -1378,6 +1378,18 @@ function openFullSquadModal(teamId) {
       </div>
     </div>
 
+    <!-- Stadium Info Banner -->
+    <div style="position: relative; height: 130px; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: flex-end; padding: 1rem 1.5rem; flex-shrink: 0;">
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+        <img src="assets/stadiums/stadium_${team.id.toLowerCase()}.jpg" alt="${team.venue}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='assets/ipl_stadium.jpg';" />
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(10, 14, 28, 0.95) 0%, rgba(10, 14, 28, 0.4) 60%, rgba(10, 14, 28, 0.8) 100%);"></div>
+      </div>
+      <div style="position: relative; z-index: 2; display: flex; flex-direction: column; gap: 2px;">
+        <span style="font-size: 0.65rem; color: var(--accent-gold); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">🏡 Home Venue</span>
+        <h4 style="margin: 0; font-size: 1.05rem; font-weight: 700; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${team.venue}</h4>
+      </div>
+    </div>
+
     <!-- Scrollable Roster -->
     <div style="flex: 1; overflow-y: auto; padding: 1.5rem; scrollbar-width: thin;">
       ${rolesHtml}
