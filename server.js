@@ -393,20 +393,43 @@ function shuffleArray(array) {
   return arr;
 }
 
-// Filter players dynamically based on selected pool mode and randomize the order
+// Filter players dynamically based on selected pool mode and randomize within sets (Capped vs Uncapped & Role)
 function getFilteredPlayers() {
   let list = playersData.filter(p => !retainedPlayerNames.has(p.name.toLowerCase().trim()));
   if (poolMode === "mini") {
     // Mini Auction: Rating >= 80 or basePrice >= 1.5 Cr (Top 145 cap release pool)
     list = list.filter(p => p.rating >= 80 || p.basePrice >= 1.5);
   }
+  
   const mapped = list.map(p => ({
     ...p,
     status: "Upcoming",
     soldTo: null,
     soldPrice: null
   }));
-  return shuffleArray(mapped);
+
+  // Divide into groups: Capped (basePrice >= 0.5 Cr) vs Uncapped (basePrice < 0.5 Cr)
+  const cappedBatsmen = mapped.filter(p => p.basePrice >= 0.5 && p.role === "Batsman");
+  const cappedAllRounders = mapped.filter(p => p.basePrice >= 0.5 && p.role === "All-Rounder");
+  const cappedWicketkeepers = mapped.filter(p => p.basePrice >= 0.5 && p.role === "Wicketkeeper");
+  const cappedBowlers = mapped.filter(p => p.basePrice >= 0.5 && p.role === "Bowler");
+
+  const uncappedBatsmen = mapped.filter(p => p.basePrice < 0.5 && p.role === "Batsman");
+  const uncappedAllRounders = mapped.filter(p => p.basePrice < 0.5 && p.role === "All-Rounder");
+  const uncappedWicketkeepers = mapped.filter(p => p.basePrice < 0.5 && p.role === "Wicketkeeper");
+  const uncappedBowlers = mapped.filter(p => p.basePrice < 0.5 && p.role === "Bowler");
+
+  // Shuffle each group individually to retain random entry while respecting sets
+  return [
+    ...shuffleArray(cappedBatsmen),
+    ...shuffleArray(cappedAllRounders),
+    ...shuffleArray(cappedWicketkeepers),
+    ...shuffleArray(cappedBowlers),
+    ...shuffleArray(uncappedBatsmen),
+    ...shuffleArray(uncappedAllRounders),
+    ...shuffleArray(uncappedWicketkeepers),
+    ...shuffleArray(uncappedBowlers)
+  ];
 }
 
 // Initialize players

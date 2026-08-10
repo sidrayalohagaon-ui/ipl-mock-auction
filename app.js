@@ -437,7 +437,13 @@ function renderCurrentPlayerCard(player) {
         <span class="player-country-badge" style="z-index: 2;">${player.country}</span>
       </div>
       <div class="player-info-details">
-        <h2 class="player-name">${player.name}</h2>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 0.5rem; flex-wrap: wrap;">
+          <h2 class="player-name" style="margin: 0;">${player.name}</h2>
+          ${player.basePrice >= 0.5 
+            ? `<span style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); color: #10b981; padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Capped</span>`
+            : `<span style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; padding: 0.15rem 0.5rem; border-radius: 6px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">Uncapped</span>`
+          }
+        </div>
         <div class="player-base-price">Base Price: <strong>${player.basePrice.toFixed(2)} Cr</strong></div>
       </div>
       <div class="player-stats-mini-grid">
